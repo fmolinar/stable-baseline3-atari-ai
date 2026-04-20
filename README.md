@@ -119,9 +119,49 @@ Each checkpoint is evaluated on **20 held-out episodes** with no exploration (de
 
 ---
 
+## Training Hardware
+
+All experiments are trained locally on the following machine:
+
+| Component | Specification |
+|---|---|
+| GPU | NVIDIA GeForce RTX 3060 Ti (8 GB VRAM) |
+| CUDA Driver | 581.95 |
+| CUDA Version | 12.4 (via PyTorch cu124 build) |
+| OS | Windows 11 Home |
+| Python | 3.12.10 |
+| PyTorch | 2.6.0+cu124 |
+| Stable-Baselines3 | 2.8.0 |
+| Gymnasium | 1.2.3 |
+| ALE (ale-py) | 0.11.2 |
+
+Training locally (rather than Google Colab) gives uninterrupted multi-hour runs with no session timeout, direct checkpoint access, and comparable or faster throughput than a Colab free T4 GPU.
+
+---
+
 ## Setup
 
-### Google Colab (recommended)
+### Local (recommended)
+
+Requires Python 3.12 and a CUDA-capable NVIDIA GPU.
+
+```bash
+# 1. Create and activate virtual environment
+py -3.12 -m venv venv
+venv\Scripts\activate        # Windows
+# source venv/bin/activate   # macOS / Linux
+
+# 2. Install PyTorch with CUDA 12.4 support
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124
+
+# 3. Install project dependencies
+pip install "gymnasium[atari]" "stable-baselines3[extra]" imageio imageio-ffmpeg pyyaml pandas matplotlib
+
+# 4. Verify CUDA is detected
+python -c "import torch; print(torch.cuda.get_device_name(0))"
+```
+
+### Google Colab (alternative)
 
 ```python
 from google.colab import drive
@@ -131,33 +171,41 @@ drive.mount("/content/drive")
 !pip install -U "gymnasium[atari]" "stable-baselines3[extra]"
 ```
 
-### Local
-
-```bash
-pip install -r requirements.txt
-```
-
 ---
 
 ## Quick Start
 
-```python
-import gymnasium as gym
-import ale_py
-from stable_baselines3.common.env_util import make_atari_env
-from stable_baselines3.common.vec_env import VecFrameStack
-from stable_baselines3 import DQN
+```bash
+# Activate the virtual environment first
+venv\Scripts\activate
 
-gym.register_envs(ale_py)
+# Train DQN on Pong (saves checkpoints to models/)
+python scripts/train_dqn.py --env ALE/Pong-v5 --experiment dqn_lr_low --save_dir models
 
-# Create vectorized, preprocessed Atari env
-vec_env = make_atari_env("ALE/Pong-v5", n_envs=1, seed=0)
-vec_env = VecFrameStack(vec_env, n_stack=4)
+# Train A2C on Pong
+python scripts/train_a2c.py --env ALE/Pong-v5 --experiment a2c_default --save_dir models
 
-# Train DQN
-model = DQN("CnnPolicy", vec_env, verbose=1)
-model.learn(total_timesteps=100_000)
-model.save("checkpoints/dqn_pong_100k")
+# Train PPO on Pong
+python scripts/train_ppo.py --env ALE/Pong-v5 --experiment ppo_default --save_dir models
+
+# Resume training from a checkpoint
+python scripts/train_dqn.py --env ALE/Pong-v5 --resume_from models/dqn_pong/dqn_500000_steps.zip --resume_steps 500000
+
+# Evaluate checkpoints
+python scripts/evaluate.py --algo dqn --env ALE/Pong-v5 \
+    --checkpoints models/dqn_pong/dqn_100000_steps.zip models/dqn_pong/dqn_final.zip
+
+# Record gameplay videos
+python scripts/record_video.py --algo dqn --env ALE/Pong-v5 \
+    --checkpoints models/dqn_pong/dqn_100000_steps.zip models/dqn_pong/dqn_final.zip \
+    --labels early final --output_dir videos
+```
+
+Or run the numbered notebooks in order:
+
+```
+01 → setup    02 → DQN    03 → A2C    04 → PPO
+05 → resume   06 → eval   07 → video
 ```
 
 ---
@@ -171,6 +219,36 @@ model.save("checkpoints/dqn_pong_100k")
 | DQN | Pong | 100k | TBD | TBD |
 | A2C | Pong | 100k | TBD | TBD |
 | PPO | Pong | 100k | TBD | TBD |
+
+---
+
+## Notebook Order
+
+| # | Notebook | What it does |
+|---|---|---|
+| 01 | `01_setup_and_env_test.ipynb` | Install packages, register ALE, smoke test all 3 environments |
+| 02 | `02_dqn_training.ipynb` | Train DQN on Pong with checkpoint saving every 100k steps |
+| 03 | `03_a2c_training.ipynb` | Train A2C (default + 8-env/low-entropy variant) |
+| 04 | `04_ppo_training.ipynb` | Train PPO (default + small-batch variant) |
+| 05 | `05_resume_training.ipynb` | Load any checkpoint and continue training |
+| 06 | `06_evaluation.ipynb` | Evaluate all checkpoints, build results table and learning curve plot |
+| 07 | `07_video_generation.ipynb` | Record early / mid / final gameplay videos as `.mp4` |
+
+---
+
+## What Is and Isn't in This Repo
+
+**Tracked (in git):**
+- All Python scripts and notebooks
+- Hyperparameter config YAMLs
+- `requirements.txt`
+
+**Excluded (local only, in `.gitignore`):**
+- `venv/` — virtual environment
+- `models/` — trained model checkpoints (`.zip`)
+- `videos/` — recorded gameplay (`.mp4`)
+- `results/` — evaluation output JSONs
+- `logs/` and `tensorboard_logs/`
 
 ---
 
