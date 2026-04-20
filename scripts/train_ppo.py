@@ -6,7 +6,7 @@ import gymnasium as gym
 import ale_py
 from stable_baselines3 import PPO
 from stable_baselines3.common.env_util import make_atari_env
-from stable_baselines3.common.vec_env import VecFrameStack
+from stable_baselines3.common.vec_env import VecFrameStack, VecTransposeImage
 from stable_baselines3.common.callbacks import CheckpointCallback, EvalCallback
 
 gym.register_envs(ale_py)
@@ -21,6 +21,7 @@ def train(env_id: str, config: dict, save_dir: str, run_name: str):
 
     eval_env = make_atari_env(env_id, n_envs=1, seed=0)
     eval_env = VecFrameStack(eval_env, n_stack=4)
+    eval_env = VecTransposeImage(eval_env)
 
     checkpoint_cb = CheckpointCallback(
         save_freq=max(100_000 // n_envs, 1),
