@@ -1,0 +1,46 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Models & checkpoints
+models/
+checkpoints/
+*.zip
+*.pkl
+
+# Videos
+videos/
+*.mp4
+*.avi
+*.gif
+
+# Logs
+logs/
+*.log
+tensorboard_logs/
+
+# Google Drive mounts
+/content/drive/
+
+# OS
+.DS_Store
+Thumbs.db
