@@ -35,3 +35,46 @@ experiments:
     gamma: 0.99
     ent_coef: 0.001
     n_envs: 8
+
+  # Space Invaders experiments (10M timesteps)
+  - name: ppo_si_default
+    learning_rate: 2.5e-4
+    n_steps: 256
+    batch_size: 256
+    n_epochs: 4
+    gamma: 0.99
+    gae_lambda: 0.95
+    clip_range: 0.1
+    ent_coef: 0.01
+    vf_coef: 0.5
+    max_grad_norm: 0.5
+    n_envs: 8
+    total_timesteps: 10000000
+
+  - name: ppo_si_high_entropy
+    learning_rate: 2.5e-4
+    n_steps: 256
+    batch_size: 256
+    n_epochs: 4
+    gamma: 0.99
+    gae_lambda: 0.95
+    clip_range: 0.1
+    ent_coef: 0.03
+    vf_coef: 0.5
+    max_grad_norm: 0.5
+    n_envs: 8
+    total_timesteps: 10000000
+
+  - name: ppo_si_long_rollout
+    learning_rate: 2.5e-4
+    n_steps: 512
+    batch_size: 512
+    n_epochs: 4
+    gamma: 0.99
+    gae_lambda: 0.95
+    clip_range: 0.1
+    ent_coef: 0.01
+    vf_coef: 0.5
+    max_grad_norm: 0.5
+    n_envs: 8
+    total_timesteps: 10000000

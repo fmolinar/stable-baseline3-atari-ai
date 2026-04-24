@@ -29,3 +29,37 @@ experiments:
     gamma: 0.99
     ent_coef: 0.001
     n_envs: 4
+
+  # Space Invaders experiments (10M timesteps)
+  - name: a2c_si_default
+    learning_rate: 7.0e-4
+    n_steps: 10
+    gamma: 0.99
+    gae_lambda: 1.0
+    ent_coef: 0.02
+    vf_coef: 0.25
+    max_grad_norm: 0.5
+    n_envs: 8
+    total_timesteps: 10000000
+
+  - name: a2c_si_high_entropy
+    learning_rate: 7.0e-4
+    n_steps: 10
+    gamma: 0.99
+    gae_lambda: 1.0
+    ent_coef: 0.05
+    vf_coef: 0.25
+    max_grad_norm: 0.5
+    n_envs: 8
+    total_timesteps: 10000000
+
+  - name: a2c_si_low_lr
+    learning_rate: 3.0e-4
+    n_steps: 10
+    gamma: 0.99
+    gae_lambda: 1.0
+    ent_coef: 0.02
+    vf_coef: 0.25
+    max_grad_norm: 0.5
+    n_envs: 8
+    total_timesteps: 10000000

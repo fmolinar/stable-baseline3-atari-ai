@@ -38,3 +38,38 @@ experiments:
     buffer_size: 100000
     gamma: 0.95
     target_update_interval: 1000
+
+  # Space Invaders experiments (10M timesteps)
+  - name: dqn_si_default
+    learning_rate: 1.0e-4
+    batch_size: 64
+    buffer_size: 500000
+    gamma: 0.99
+    target_update_interval: 1000
+    exploration_fraction: 0.2
+    exploration_final_eps: 0.01
+    train_freq: 4
+    gradient_steps: 1
+
+  - name: dqn_si_large_buffer
+    learning_rate: 1.0e-4
+    batch_size: 64
+    buffer_size: 1000000
+    gamma: 0.99
+    target_update_interval: 2000
+    exploration_fraction: 0.2
+    exploration_final_eps: 0.01
+    train_freq: 4
+    gradient_steps: 1
+    optimize_memory_usage: true
+
+  - name: dqn_si_high_lr
+    learning_rate: 5.0e-4
+    batch_size: 64
+    buffer_size: 500000
+    gamma: 0.99
+    target_update_interval: 1000
+    exploration_fraction: 0.15
+    exploration_final_eps: 0.01
+    train_freq: 4
+    gradient_steps: 1

@@ -57,6 +57,33 @@ This project uses [Stable-Baselines3](https://stable-baselines3.readthedocs.io/)
 
 ---
 
+## Branch Notes: `feature/space-invaders`
+
+> **This branch targets Space Invaders at 10M timesteps.**
+> The script defaults have changed from the `main` branch. If you want to train on Pong you must pass the flags explicitly — running a script with no arguments will launch Space Invaders.
+
+| Setting | `main` default | `feature/space-invaders` default |
+|---|---|---|
+| `--env` | `ALE/Pong-v5` | `ALE/SpaceInvaders-v5` |
+| `--timesteps` | 2,000,000 | 10,000,000 |
+| `--experiment` (DQN) | `dqn_lr_low` | `dqn_si_default` |
+| `--experiment` (A2C) | `a2c_default` | `a2c_si_default` |
+| `--experiment` (PPO) | `ppo_default` | `ppo_si_default` |
+| Checkpoint frequency | every 100k steps | every 500k steps |
+| Eval frequency | every 50k steps | every 250k steps |
+
+**To run Pong on this branch**, pass all three flags explicitly:
+
+```bash
+python scripts/train_dqn.py --env ALE/Pong-v5 --experiment dqn_lr_low --timesteps 2000000
+python scripts/train_a2c.py --env ALE/Pong-v5 --experiment a2c_default --timesteps 2000000
+python scripts/train_ppo.py --env ALE/Pong-v5 --experiment ppo_default --timesteps 2000000
+```
+
+Pong models and Space Invaders models are saved to separate directories and will never overwrite each other (paths are derived from `--experiment` + env name, e.g. `models/dqn_lr_low_Pong_v5/` vs `models/dqn_si_default_SpaceInvaders_v5/`).
+
+---
+
 ## Environments
 
 | Environment | ALE ID |
@@ -100,12 +127,25 @@ This project uses [Stable-Baselines3](https://stable-baselines3.readthedocs.io/)
 
 Models are saved at the following training milestones:
 
+**Pong (2M timesteps)**
+
 | Checkpoint | Timesteps |
 |---|---|
 | Early | 100,000 |
 | Mid | 500,000 |
 | Late | 1,000,000 |
 | Final | 2,000,000 |
+
+**Space Invaders (10M timesteps)**
+
+| Checkpoint | Timesteps |
+|---|---|
+| Early | 100,000 |
+| | 500,000 |
+| | 1,000,000 |
+| | 2,000,000 |
+| | 5,000,000 |
+| Final | 10,000,000 |
 
 ---
 
@@ -178,26 +218,37 @@ drive.mount("/content/drive")
 ```bash
 # Activate the virtual environment first
 venv\Scripts\activate
+```
 
-# Train DQN on Pong (saves checkpoints to models/)
-python scripts/train_dqn.py --env ALE/Pong-v5 --experiment dqn_lr_low --save_dir models
+**Space Invaders — 10M steps (branch defaults, no extra flags needed)**
 
-# Train A2C on Pong
-python scripts/train_a2c.py --env ALE/Pong-v5 --experiment a2c_default --save_dir models
+```bash
+python scripts/train_dqn.py
+python scripts/train_a2c.py
+python scripts/train_ppo.py
+```
 
-# Train PPO on Pong
-python scripts/train_ppo.py --env ALE/Pong-v5 --experiment ppo_default --save_dir models
+**Pong — 2M steps (must pass flags explicitly on this branch)**
 
+```bash
+python scripts/train_dqn.py --env ALE/Pong-v5 --experiment dqn_lr_low --timesteps 2000000
+python scripts/train_a2c.py --env ALE/Pong-v5 --experiment a2c_default --timesteps 2000000
+python scripts/train_ppo.py --env ALE/Pong-v5 --experiment ppo_default --timesteps 2000000
+```
+
+**Resume, evaluate, and record (works for any env)**
+
+```bash
 # Resume training from a checkpoint
-python scripts/train_dqn.py --env ALE/Pong-v5 --resume_from models/dqn_pong/dqn_500000_steps.zip --resume_steps 500000
+python scripts/train_dqn.py --env ALE/Pong-v5 --resume_from models/dqn_lr_low_Pong_v5/dqn_500000_steps.zip --resume_steps 1000000
 
 # Evaluate checkpoints
 python scripts/evaluate.py --algo dqn --env ALE/Pong-v5 \
-    --checkpoints models/dqn_pong/dqn_100000_steps.zip models/dqn_pong/dqn_final.zip
+    --checkpoints models/dqn_lr_low_Pong_v5/dqn_100000_steps.zip models/dqn_lr_low_Pong_v5/dqn_final.zip
 
 # Record gameplay videos
 python scripts/record_video.py --algo dqn --env ALE/Pong-v5 \
-    --checkpoints models/dqn_pong/dqn_100000_steps.zip models/dqn_pong/dqn_final.zip \
+    --checkpoints models/dqn_lr_low_Pong_v5/dqn_100000_steps.zip models/dqn_lr_low_Pong_v5/dqn_final.zip \
     --labels early final --output_dir videos
 ```
 
