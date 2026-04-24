@@ -24,7 +24,7 @@ def train(env_id: str, config: dict, save_dir: str, run_name: str):
     eval_env = VecTransposeImage(eval_env)
 
     checkpoint_cb = CheckpointCallback(
-        save_freq=max(100_000 // n_envs, 1),
+        save_freq=max(500_000 // n_envs, 1),
         save_path=os.path.join(save_dir, run_name),
         name_prefix="ppo",
     )
@@ -32,7 +32,7 @@ def train(env_id: str, config: dict, save_dir: str, run_name: str):
         eval_env,
         best_model_save_path=os.path.join(save_dir, run_name, "best"),
         log_path=os.path.join(save_dir, run_name, "eval_logs"),
-        eval_freq=max(50_000 // n_envs, 1),
+        eval_freq=max(250_000 // n_envs, 1),
         n_eval_episodes=20,
         deterministic=True,
     )
@@ -55,7 +55,7 @@ def train(env_id: str, config: dict, save_dir: str, run_name: str):
     )
 
     model.learn(
-        total_timesteps=2_000_000,
+        total_timesteps=config.get("total_timesteps", 10_000_000),
         callback=[checkpoint_cb, eval_cb],
         tb_log_name=run_name,
     )
@@ -88,12 +88,13 @@ def resume(checkpoint_path: str, env_id: str, additional_steps: int, save_dir: s
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--env", default="ALE/Pong-v5")
+    parser.add_argument("--env", default="ALE/SpaceInvaders-v5")
     parser.add_argument("--config", default="configs/ppo_config.yaml")
-    parser.add_argument("--experiment", default="ppo_default")
+    parser.add_argument("--experiment", default="ppo_si_default")
     parser.add_argument("--save_dir", default="models")
+    parser.add_argument("--timesteps", type=int, default=10_000_000)
     parser.add_argument("--resume_from", default=None)
-    parser.add_argument("--resume_steps", type=int, default=500_000)
+    parser.add_argument("--resume_steps", type=int, default=1_000_000)
     args = parser.parse_args()
 
     with open(args.config) as f:
@@ -103,6 +104,8 @@ if __name__ == "__main__":
         (e for e in cfg["experiments"] if e["name"] == args.experiment),
         cfg["defaults"],
     )
+
+    exp_cfg.setdefault("total_timesteps", args.timesteps)
 
     env_short = args.env.split("/")[-1].replace("-", "_")
     run_name = f"{args.experiment}_{env_short}"

@@ -11,10 +11,10 @@ from stable_baselines3.common.callbacks import CheckpointCallback, EvalCallback
 
 gym.register_envs(ale_py)
 
-CHECKPOINTS = [100_000, 500_000, 1_000_000, 2_000_000]
+CHECKPOINTS = [100_000, 500_000, 1_000_000, 2_000_000, 5_000_000, 10_000_000]
 
 
-def train(env_id: str, config: dict, save_dir: str, run_name: str):
+def train(env_id: str, config: dict, save_dir: str, run_name: str, total_timesteps: int = 10_000_000):
     os.makedirs(save_dir, exist_ok=True)
 
     vec_env = make_atari_env(env_id, n_envs=1, seed=42)
@@ -25,7 +25,7 @@ def train(env_id: str, config: dict, save_dir: str, run_name: str):
     eval_env = VecTransposeImage(eval_env)
 
     checkpoint_cb = CheckpointCallback(
-        save_freq=100_000,
+        save_freq=500_000,
         save_path=os.path.join(save_dir, run_name),
         name_prefix="dqn",
     )
@@ -33,7 +33,7 @@ def train(env_id: str, config: dict, save_dir: str, run_name: str):
         eval_env,
         best_model_save_path=os.path.join(save_dir, run_name, "best"),
         log_path=os.path.join(save_dir, run_name, "eval_logs"),
-        eval_freq=50_000,
+        eval_freq=250_000,
         n_eval_episodes=20,
         deterministic=True,
     )
@@ -56,7 +56,7 @@ def train(env_id: str, config: dict, save_dir: str, run_name: str):
     )
 
     model.learn(
-        total_timesteps=max(CHECKPOINTS),
+        total_timesteps=total_timesteps,
         callback=[checkpoint_cb, eval_cb],
         tb_log_name=run_name,
     )
@@ -90,12 +90,13 @@ def resume(checkpoint_path: str, env_id: str, additional_steps: int, save_dir: s
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--env", default="ALE/Pong-v5")
+    parser.add_argument("--env", default="ALE/SpaceInvaders-v5")
     parser.add_argument("--config", default="configs/dqn_config.yaml")
-    parser.add_argument("--experiment", default="dqn_lr_low")
+    parser.add_argument("--experiment", default="dqn_si_default")
     parser.add_argument("--save_dir", default="models")
+    parser.add_argument("--timesteps", type=int, default=10_000_000)
     parser.add_argument("--resume_from", default=None)
-    parser.add_argument("--resume_steps", type=int, default=500_000)
+    parser.add_argument("--resume_steps", type=int, default=1_000_000)
     args = parser.parse_args()
 
     with open(args.config) as f:
@@ -112,4 +113,4 @@ if __name__ == "__main__":
     if args.resume_from:
         resume(args.resume_from, args.env, args.resume_steps, args.save_dir, run_name)
     else:
-        train(args.env, exp_cfg, args.save_dir, run_name)
+        train(args.env, exp_cfg, args.save_dir, run_name, total_timesteps=args.timesteps)
