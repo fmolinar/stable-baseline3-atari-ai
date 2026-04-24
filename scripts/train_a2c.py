@@ -15,6 +15,8 @@ gym.register_envs(ale_py)
 def train(env_id: str, config: dict, save_dir: str, run_name: str):
     os.makedirs(save_dir, exist_ok=True)
     n_envs = config.get("n_envs", 4)
+    total_timesteps = config.get("total_timesteps", 2_000_000)
+    checkpoint_freq = config.get("checkpoint_freq", 100_000)
 
     vec_env = make_atari_env(env_id, n_envs=n_envs, seed=42)
     vec_env = VecFrameStack(vec_env, n_stack=4)
@@ -24,7 +26,7 @@ def train(env_id: str, config: dict, save_dir: str, run_name: str):
     eval_env = VecTransposeImage(eval_env)
 
     checkpoint_cb = CheckpointCallback(
-        save_freq=max(500_000 // n_envs, 1),
+        save_freq=max(checkpoint_freq // n_envs, 1),
         save_path=os.path.join(save_dir, run_name),
         name_prefix="a2c",
     )
@@ -51,8 +53,9 @@ def train(env_id: str, config: dict, save_dir: str, run_name: str):
         verbose=1,
     )
 
+    print(f"Starting training: {total_timesteps:,} timesteps, checkpoint every {checkpoint_freq:,} steps")
     model.learn(
-        total_timesteps=config.get("total_timesteps", 10_000_000),
+        total_timesteps=total_timesteps,
         callback=[checkpoint_cb, eval_cb],
         tb_log_name=run_name,
     )

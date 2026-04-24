@@ -17,13 +17,14 @@ ALGO_MAP = {"dqn": DQN, "a2c": A2C, "ppo": PPO}
 def record_episode(algo: str, checkpoint_path: str, env_id: str, output_path: str, fps: int = 30):
     AlgoClass = ALGO_MAP[algo.lower()]
 
-    # render_mode="rgb_array" gives us frames we can write to video
-    env = gym.make(env_id, render_mode="rgb_array")
+    # frameskip=1 disables the env's built-in frame-skip so AtariPreprocessing
+    # can apply its own (default frame_skip=4) without double-skipping.
+    env = gym.make(env_id, render_mode="rgb_array", frameskip=1)
     frames = []
 
     # Wrap manually to match training preprocessing
     from gymnasium.wrappers import AtariPreprocessing, FrameStackObservation
-    env = AtariPreprocessing(env, grayscale_obs=True, scale_obs=True)
+    env = AtariPreprocessing(env, grayscale_obs=True, scale_obs=True, frame_skip=4)
     env = FrameStackObservation(env, stack_size=4)
 
     # Load model without vectorized env (predict on single obs)

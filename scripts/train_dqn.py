@@ -24,8 +24,9 @@ def train(env_id: str, config: dict, save_dir: str, run_name: str, total_timeste
     eval_env = VecFrameStack(eval_env, n_stack=4)
     eval_env = VecTransposeImage(eval_env)
 
+    checkpoint_freq = config.get("checkpoint_freq", 100_000)
     checkpoint_cb = CheckpointCallback(
-        save_freq=500_000,
+        save_freq=checkpoint_freq,
         save_path=os.path.join(save_dir, run_name),
         name_prefix="dqn",
     )
@@ -44,6 +45,7 @@ def train(env_id: str, config: dict, save_dir: str, run_name: str, total_timeste
         learning_rate=config.get("learning_rate", 1e-4),
         batch_size=config.get("batch_size", 32),
         buffer_size=config.get("buffer_size", 100_000),
+        learning_starts=config.get("learning_starts", 50_000),
         gamma=config.get("gamma", 0.99),
         target_update_interval=config.get("target_update_interval", 1000),
         exploration_fraction=config.get("exploration_fraction", 0.1),
@@ -55,6 +57,7 @@ def train(env_id: str, config: dict, save_dir: str, run_name: str, total_timeste
         verbose=1,
     )
 
+    total_timesteps = config.get("total_timesteps", max(CHECKPOINTS))
     model.learn(
         total_timesteps=total_timesteps,
         callback=[checkpoint_cb, eval_cb],

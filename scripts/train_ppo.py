@@ -23,8 +23,9 @@ def train(env_id: str, config: dict, save_dir: str, run_name: str):
     eval_env = VecFrameStack(eval_env, n_stack=4)
     eval_env = VecTransposeImage(eval_env)
 
+    checkpoint_freq = config.get("checkpoint_freq", 100_000)
     checkpoint_cb = CheckpointCallback(
-        save_freq=max(500_000 // n_envs, 1),
+        save_freq=max(checkpoint_freq // n_envs, 1),
         save_path=os.path.join(save_dir, run_name),
         name_prefix="ppo",
     )
@@ -54,8 +55,9 @@ def train(env_id: str, config: dict, save_dir: str, run_name: str):
         verbose=1,
     )
 
+    total_timesteps = config.get("total_timesteps", 2_000_000)
     model.learn(
-        total_timesteps=config.get("total_timesteps", 10_000_000),
+        total_timesteps=total_timesteps,
         callback=[checkpoint_cb, eval_cb],
         tb_log_name=run_name,
     )
