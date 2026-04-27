@@ -1,0 +1,51 @@
+[
+  {
+    "mean_reward": -20.95,
+    "std_reward": 0.21794494717703367,
+    "checkpoint": "models/dqn_10m_Pong_v5/dqn_100000_steps.zip",
+    "algo": "dqn",
+    "env": "ALE/Pong-v5"
+  },
+  {
+    "mean_reward": -16.2,
+    "std_reward": 2.2045407685048604,
+    "checkpoint": "models/dqn_10m_Pong_v5/dqn_1000000_steps.zip",
+    "algo": "dqn",
+    "env": "ALE/Pong-v5"
+  },
+  {
+    "mean_reward": -6.0,
+    "std_reward": 6.212889826803627,
+    "checkpoint": "models/dqn_10m_Pong_v5/dqn_2000000_steps.zip",
+    "algo": "dqn",
+    "env": "ALE/Pong-v5"
+  },
+  {
+    "mean_reward": 5.25,
+    "std_reward": 4.656984002549289,
+    "checkpoint": "models/dqn_10m_Pong_v5/dqn_5000000_steps.zip",
+    "algo": "dqn",
+    "env": "ALE/Pong-v5"
+  },
+  {
+    "mean_reward": 7.8,
+    "std_reward": 5.697367813297645,
+    "checkpoint": "models/dqn_10m_Pong_v5/dqn_7000000_steps.zip",
+    "algo": "dqn",
+    "env": "ALE/Pong-v5"
+  },
+  {
+    "mean_reward": 9.2,
+    "std_reward": 4.686149805543993,
+    "checkpoint": "models/dqn_10m_Pong_v5/dqn_10000000_steps.zip",
+    "algo": "dqn",
+    "env": "ALE/Pong-v5"
+  },
+  {
+    "mean_reward": 8.65,
+    "std_reward": 4.607331114647611,
+    "checkpoint": "models/dqn_10m_Pong_v5/dqn_final.zip",
+    "algo": "dqn",
+    "env": "ALE/Pong-v5"
+  }
+]

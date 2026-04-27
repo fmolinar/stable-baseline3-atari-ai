@@ -263,13 +263,25 @@ Or run the numbered notebooks in order:
 
 ## Results Summary
 
-> Results will be populated as experiments complete.
+All agents trained for 10M timesteps. Evaluated on 20 held-out deterministic episodes per checkpoint.
 
-| Algorithm | Environment | Checkpoint | Mean Reward | Std |
-|---|---|---|---|---|
-| DQN | Pong | 100k | TBD | TBD |
-| A2C | Pong | 100k | TBD | TBD |
-| PPO | Pong | 100k | TBD | TBD |
+### Space Invaders
+
+| Algorithm | 100k | 500k | 1M | 2M | 5M | 10M (final) |
+|---|---|---|---|---|---|---|
+| DQN | 217 ± 123 | 365 ± 127 | 464 ± 152 | 600 ± 167 | 897 ± 291 | **1064 ± 485** |
+| A2C | 363 ± 213 | 411 ± 134 | 319 ± 143 | 520 ± 147 | 613 ± 210 | **914 ± 370** |
+| PPO | 142 ± 40  | 540 ± 171 | 515 ± 200 | 509 ± 179 | 729 ± 183 | **861 ± 294** |
+
+### Pong (score range: −21 to +21)
+
+| Algorithm | 100k | 1M | 2M | 5M | 7M | 10M (final) |
+|---|---|---|---|---|---|---|
+| DQN | -21.0 ± 0.2 | -16.2 ± 2.2 | -6.0 ± 6.2 | +5.3 ± 4.7 | +7.8 ± 5.7 | **+9.2 ± 4.7** |
+| A2C | -21.0 ± 0.0 | -19.9 ± 1.1 | -17.5 ± 1.9 | -12.5 ± 3.2 | -15.4 ± 2.4 | **-8.4 ± 6.2** |
+| PPO | -21.0 ± 0.0 | -18.8 ± 2.0 | -16.1 ± 2.8 | -7.1 ± 4.4 | -7.3 ± 5.7 | **-3.1 ± 6.3** |
+
+See `report/learning_curves.png` for the full learning curve plots.
 
 ---
 

@@ -1,0 +1,51 @@
+[
+  {
+    "mean_reward": -21.0,
+    "std_reward": 0.0,
+    "checkpoint": "models/ppo_10m_Pong_v5/ppo_100000_steps.zip",
+    "algo": "ppo",
+    "env": "ALE/Pong-v5"
+  },
+  {
+    "mean_reward": -18.75,
+    "std_reward": 1.9716744153130354,
+    "checkpoint": "models/ppo_10m_Pong_v5/ppo_1000000_steps.zip",
+    "algo": "ppo",
+    "env": "ALE/Pong-v5"
+  },
+  {
+    "mean_reward": -16.05,
+    "std_reward": 2.8191310718020897,
+    "checkpoint": "models/ppo_10m_Pong_v5/ppo_2000000_steps.zip",
+    "algo": "ppo",
+    "env": "ALE/Pong-v5"
+  },
+  {
+    "mean_reward": -7.1,
+    "std_reward": 4.448595283907045,
+    "checkpoint": "models/ppo_10m_Pong_v5/ppo_5000000_steps.zip",
+    "algo": "ppo",
+    "env": "ALE/Pong-v5"
+  },
+  {
+    "mean_reward": -7.25,
+    "std_reward": 5.673402858955108,
+    "checkpoint": "models/ppo_10m_Pong_v5/ppo_7000000_steps.zip",
+    "algo": "ppo",
+    "env": "ALE/Pong-v5"
+  },
+  {
+    "mean_reward": -3.1,
+    "std_reward": 6.268173577685928,
+    "checkpoint": "models/ppo_10m_Pong_v5/ppo_10000000_steps.zip",
+    "algo": "ppo",
+    "env": "ALE/Pong-v5"
+  },
+  {
+    "mean_reward": -4.05,
+    "std_reward": 6.012279101971231,
+    "checkpoint": "models/ppo_10m_Pong_v5/ppo_final.zip",
+    "algo": "ppo",
+    "env": "ALE/Pong-v5"
+  }
+]

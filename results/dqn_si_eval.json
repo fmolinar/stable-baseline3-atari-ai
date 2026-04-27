@@ -1,0 +1,44 @@
+[
+  {
+    "mean_reward": 217.0,
+    "std_reward": 122.89629774732842,
+    "checkpoint": "models/dqn_si_default_SpaceInvaders_v5/dqn_100000_steps.zip",
+    "algo": "dqn",
+    "env": "ALE/SpaceInvaders-v5"
+  },
+  {
+    "mean_reward": 365.25,
+    "std_reward": 127.41148888542195,
+    "checkpoint": "models/dqn_si_default_SpaceInvaders_v5/dqn_500000_steps.zip",
+    "algo": "dqn",
+    "env": "ALE/SpaceInvaders-v5"
+  },
+  {
+    "mean_reward": 463.75,
+    "std_reward": 151.99403771201028,
+    "checkpoint": "models/dqn_si_default_SpaceInvaders_v5/dqn_1000000_steps.zip",
+    "algo": "dqn",
+    "env": "ALE/SpaceInvaders-v5"
+  },
+  {
+    "mean_reward": 600.0,
+    "std_reward": 167.37682037845025,
+    "checkpoint": "models/dqn_si_default_SpaceInvaders_v5/dqn_2000000_steps.zip",
+    "algo": "dqn",
+    "env": "ALE/SpaceInvaders-v5"
+  },
+  {
+    "mean_reward": 897.0,
+    "std_reward": 291.4892793911982,
+    "checkpoint": "models/dqn_si_default_SpaceInvaders_v5/dqn_5000000_steps.zip",
+    "algo": "dqn",
+    "env": "ALE/SpaceInvaders-v5"
+  },
+  {
+    "mean_reward": 1064.5,
+    "std_reward": 484.7960911558591,
+    "checkpoint": "models/dqn_si_default_SpaceInvaders_v5/dqn_final.zip",
+    "algo": "dqn",
+    "env": "ALE/SpaceInvaders-v5"
+  }
+]

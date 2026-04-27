@@ -1,0 +1,51 @@
+[
+  {
+    "mean_reward": -21.0,
+    "std_reward": 0.0,
+    "checkpoint": "models/a2c_10m_Pong_v5/a2c_100000_steps.zip",
+    "algo": "a2c",
+    "env": "ALE/Pong-v5"
+  },
+  {
+    "mean_reward": -19.85,
+    "std_reward": 1.061838029079765,
+    "checkpoint": "models/a2c_10m_Pong_v5/a2c_1000000_steps.zip",
+    "algo": "a2c",
+    "env": "ALE/Pong-v5"
+  },
+  {
+    "mean_reward": -17.45,
+    "std_reward": 1.9358460682605938,
+    "checkpoint": "models/a2c_10m_Pong_v5/a2c_2000000_steps.zip",
+    "algo": "a2c",
+    "env": "ALE/Pong-v5"
+  },
+  {
+    "mean_reward": -12.5,
+    "std_reward": 3.1543620591175006,
+    "checkpoint": "models/a2c_10m_Pong_v5/a2c_5000000_steps.zip",
+    "algo": "a2c",
+    "env": "ALE/Pong-v5"
+  },
+  {
+    "mean_reward": -15.4,
+    "std_reward": 2.353720459187964,
+    "checkpoint": "models/a2c_10m_Pong_v5/a2c_7000000_steps.zip",
+    "algo": "a2c",
+    "env": "ALE/Pong-v5"
+  },
+  {
+    "mean_reward": -8.4,
+    "std_reward": 6.224146527838174,
+    "checkpoint": "models/a2c_10m_Pong_v5/a2c_10000000_steps.zip",
+    "algo": "a2c",
+    "env": "ALE/Pong-v5"
+  },
+  {
+    "mean_reward": -9.4,
+    "std_reward": 3.5832945734337835,
+    "checkpoint": "models/a2c_10m_Pong_v5/a2c_final.zip",
+    "algo": "a2c",
+    "env": "ALE/Pong-v5"
+  }
+]
