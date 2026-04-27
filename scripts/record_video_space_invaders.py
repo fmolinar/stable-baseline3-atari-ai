@@ -61,8 +61,9 @@ def record_episode(
 ) -> float:
     AlgoClass = ALGO_MAP[algo]
 
-    # Plain gym env — render_mode="rgb_array" returns the native 160×210 color frame
-    env = gym.make(ENV_ID, render_mode="rgb_array")
+    # frameskip=1 disables the env's built-in frame skip so AtariPreprocessing
+    # can apply its own without doubling up (raises ValueError otherwise)
+    env = gym.make(ENV_ID, render_mode="rgb_array", frameskip=1)
     env = AtariPreprocessing(env, grayscale_obs=True, scale_obs=True)
     env = FrameStackObservation(env, stack_size=4)
 
