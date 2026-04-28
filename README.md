@@ -285,6 +285,20 @@ See `report/learning_curves.png` for the full learning curve plots.
 
 ---
 
+## Project Deliverables
+
+| Deliverable | Path |
+|---|---|
+| 3–5 page report | [`report/PROJECT_REPORT.md`](report/PROJECT_REPORT.md) |
+| 10-minute presentation outline | [`report/PRESENTATION.md`](report/PRESENTATION.md) |
+| Concise results summary | [`report/RESULTS_SUMMARY.md`](report/RESULTS_SUMMARY.md) |
+| Consolidated results CSV | [`results/results_table.csv`](results/results_table.csv) |
+| Per-(algo, env) eval JSONs | [`results/`](results/) |
+| Learning curve plots | [`report/learning_curves.png`](report/learning_curves.png) |
+| Early / mid / final gameplay clips | [`report/demo_videos/`](report/demo_videos/) |
+
+---
+
 ## Notebook Order
 
 | # | Notebook | What it does |
