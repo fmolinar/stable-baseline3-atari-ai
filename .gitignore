@@ -27,11 +27,14 @@ checkpoints/
 *.zip
 *.pkl
 
-# Videos
+# Videos (local-only by default — full per-checkpoint clip set lives in videos/)
 videos/
 *.mp4
 *.avi
 *.gif
+
+# ...except the representative demo clips committed alongside the report
+!report/demo_videos/**/*.mp4
 
 # Logs
 logs/
